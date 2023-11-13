@@ -10,7 +10,7 @@ namespace Web_153503_Kachanovskaya.Services.CategoryService
             var categories = new List<Category>()
             {
                 new Category() { Id = 1, Name = "Букеты", NormalizedName = "bouquet"},
-                new Category() { Id = 2, Name = "Комнатные растения", NormalizedName = "houseplants"}
+                new Category() { Id = 2, Name = "Комнатные растения", NormalizedName = "houseplant"}
             };
 
             var result = new ResponseData<List<Category>>();
