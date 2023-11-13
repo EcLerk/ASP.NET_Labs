@@ -57,7 +57,12 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
 
         public Task<ResponseData<ListModel<Product>>> GetProductListAsync(string? categoryNormalizedName, int pageNum = 1)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            var result = new ResponseData<ListModel<Product>>();
+            ListModel<Product> products = new ListModel<Product>();
+            products.Items = _products;
+            result.Data = products;
+            return Task.FromResult(result);
         }
 
         public Task UpdateProductAsync(int id, Product product, IFormFile? formFile)

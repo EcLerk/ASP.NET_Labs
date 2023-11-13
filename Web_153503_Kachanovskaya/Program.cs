@@ -1,4 +1,5 @@
 using Web_153503_Kachanovskaya.Services.CategoryService;
+using Web_153503_Kachanovskaya.Services.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ builder.Services.AddControllersWithViews();
 
 //Services registration
 builder.Services.AddScoped<ICategoryService>();
+builder.Services.AddScoped<IProductService>();
 
 var app = builder.Build();
 
