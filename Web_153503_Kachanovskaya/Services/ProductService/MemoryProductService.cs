@@ -20,22 +20,22 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
             _products = new List<Product>
             {
                 new Product { Id = 1, Name = "Букет алых роз", Description = "Алые розы, 9 штук", 
-                    Price = 105, CategoryId = 1,
+                    Price = 105, Category = _categories.Find(c => c.NormalizedName.Equals("bouquet")),
                     ImgPath = "images/roses.jpg" 
                 },
 
                 new Product { Id = 2, Name = "Букет из экзотической протеи", Description = "Протея в количестве 3 (трех) штук",
-                    Price = 90, CategoryId = _categories.Find(c => c.NormalizedName.Equals("bouquet")).Id,
+                    Price = 90, Category = _categories.Find(c => c.NormalizedName.Equals("bouquet")),
                     ImgPath = "images/proteya.jpeg"
                 },
 
                 new Product { Id = 3, Name = "Монобукет из пионовидных роз", Description = "Пионовидные розы Мэнсфилд Парк - 3 ветки (по 3-6 бутонов на одной ветке).",
-                    Price = 80, CategoryId = _categories.Find(c => c.NormalizedName.Equals("bouquet")).Id,
+                    Price = 80, Category = _categories.Find(c => c.NormalizedName.Equals("bouquet")),
                     ImgPath = "images/pion_roses.jpg"
                 },
 
                 new Product { Id = 4, Name = "Сансевиерия цилиндрическая", Description = "Диаметр горшка - 12 см, высота растения с горшком - 35 см",
-                    Price = 55, CategoryId = _categories.Find(c => c.NormalizedName.Equals("houseplant")).Id,
+                    Price = 55, Category = _categories.Find(c => c.NormalizedName.Equals("houseplant")),
                     ImgPath = "images/sansevieria.jpeg"
 }
             };
@@ -57,12 +57,21 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
 
         public Task<ResponseData<ListModel<Product>>> GetProductListAsync(string? categoryNormalizedName, int pageNum = 1)
         {
-            //throw new NotImplementedException();
             var result = new ResponseData<ListModel<Product>>();
-            ListModel<Product> products = new ListModel<Product>();
-            products.Items = _products;
-            result.Data = products;
+            ListModel<Product> data = new ListModel<Product>();
+            data.Items = _products
+                    .Where(p => categoryNormalizedName == null ||
+                    p.Category.NormalizedName.Equals(categoryNormalizedName)).ToList();
+
+            
+            result.Data = data;
             return Task.FromResult(result);
+            //throw new NotImplementedException();
+            //var result = new ResponseData<ListModel<Product>>();
+            //ListModel<Product> products = new ListModel<Product>();
+            //products.Items = _products;
+            //result.Data = products;
+            //return Task.FromResult(result);
         }
 
         public Task UpdateProductAsync(int id, Product product, IFormFile? formFile)

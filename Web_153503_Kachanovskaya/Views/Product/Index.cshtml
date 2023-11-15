@@ -6,8 +6,48 @@
 
     var request = ViewContext.HttpContext.Request;
     var returnUrl = request.Path + request.QueryString.ToUriComponent();
+
+    var categories = ViewData["Categories"] as List<Category>;
+    var currentCategory = ViewData["CurrentCategory"] as Category;
 }
 
+<!-- Выбор категории -->
+<h2>Категории</h2>
+<div class="col-2">
+    <ul class="nav ">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false">
+                <b>@(currentCategory?.Name ?? "Все")</b>
+            </a>
+
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item"
+                       asp-controller="Car"
+                       asp-route-category=@null><b>Все</b></a>
+                </li>
+                @foreach (var category in categories!)
+                {
+                    <li>
+                        <a class="dropdown-item"
+                           asp-controller="Product"
+                           asp-route-category="@category.NormalizedName">
+                            @category.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- Выбор категории - конец -->
+
+
+<!--Вывод карточек-->
 <div class="col-10 row">
     @foreach (var product in Model.Items)
     {
