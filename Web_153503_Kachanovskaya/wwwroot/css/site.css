@@ -16,3 +16,13 @@ header, footer
 .footer p{
     color: whitesmoke;
 }
+
+.catalog-img{
+    width:70%;
+    height: 70%;
+}
+
+.card{
+    width: 350px;
+    height: 450px;
+}

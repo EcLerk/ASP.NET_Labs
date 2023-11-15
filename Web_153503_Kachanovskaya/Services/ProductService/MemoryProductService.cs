@@ -20,23 +20,23 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
             _products = new List<Product>
             {
                 new Product { Id = 1, Name = "Букет алых роз", Description = "Алые розы, 9 штук", 
-                    Price = 105, CategoryId = _categories.Find(c => c.NormalizedName.Equals("bouquet")).Id,
-                    ImgPath = "Images/roses.jpg" 
+                    Price = 105, CategoryId = 1,
+                    ImgPath = "images/roses.jpg" 
                 },
 
                 new Product { Id = 2, Name = "Букет из экзотической протеи", Description = "Протея в количестве 3 (трех) штук",
                     Price = 90, CategoryId = _categories.Find(c => c.NormalizedName.Equals("bouquet")).Id,
-                    ImgPath = "Images/proteya.jpeg"
+                    ImgPath = "images/proteya.jpeg"
                 },
 
                 new Product { Id = 3, Name = "Монобукет из пионовидных роз", Description = "Пионовидные розы Мэнсфилд Парк - 3 ветки (по 3-6 бутонов на одной ветке).",
                     Price = 80, CategoryId = _categories.Find(c => c.NormalizedName.Equals("bouquet")).Id,
-                    ImgPath = "Images/pion_roses.jpg"
+                    ImgPath = "images/pion_roses.jpg"
                 },
 
                 new Product { Id = 4, Name = "Сансевиерия цилиндрическая", Description = "Диаметр горшка - 12 см, высота растения с горшком - 35 см",
                     Price = 55, CategoryId = _categories.Find(c => c.NormalizedName.Equals("houseplant")).Id,
-                    ImgPath = "Images/sensevieria.jpeg"
+                    ImgPath = "images/sansevieria.jpeg"
 }
             };
         }

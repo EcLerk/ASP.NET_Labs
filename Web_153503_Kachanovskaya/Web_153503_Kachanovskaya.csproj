@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <None Include="wwwroot\images\pion_roses.jpg" />
+    <None Include="wwwroot\images\proteya.jpeg" />
+    <None Include="wwwroot\images\roses.jpg" />
+    <None Include="wwwroot\images\sansevieria.jpeg" />
   </ItemGroup>
 
   <ItemGroup>

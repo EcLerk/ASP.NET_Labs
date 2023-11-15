@@ -1,0 +1,28 @@
+﻿@using Web_153503_Kachanovskaya.Domain.Models;
+
+@model ListModel<Product>
+@{
+    ViewData["Title"] = "index";
+
+    var request = ViewContext.HttpContext.Request;
+    var returnUrl = request.Path + request.QueryString.ToUriComponent();
+}
+
+<div class="col-10 row">
+    @foreach (var product in Model.Items)
+    {
+        <div class="col-md-4 mt-4">
+            <div class="card mb-4">
+                <img src="@product.ImgPath" class="catalog-img mx-auto">
+                <div class="card-body">
+                    <h5 class="card-title mx-auto">@product.Name</h5>
+                    <div class="card-text mx-auto">@product.Price р.</div>
+                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" asp-route-returnurl="@returnUrl"
+                        class=" btn btn-primary mt-2">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
