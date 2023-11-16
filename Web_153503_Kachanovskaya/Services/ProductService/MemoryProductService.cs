@@ -1,6 +1,8 @@
-﻿using Web_153503_Kachanovskaya.Domain.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using Web_153503_Kachanovskaya.Domain.Entities;
 using Web_153503_Kachanovskaya.Domain.Models;
 using Web_153503_Kachanovskaya.Services.CategoryService;
+using System.Linq;
 
 namespace Web_153503_Kachanovskaya.Services.ProductService
 {
@@ -8,9 +10,13 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
     {
         List<Product> _products;
         List<Category> _categories;
+        IConfiguration _configuration;
 
-        public MemoryProductService(ICategoryService categoryService)
+        public MemoryProductService([FromServices] IConfiguration config,
+            ICategoryService categoryService)
+                //int pageNo)
         {
+            _configuration = config;
             _categories = categoryService.GetCategoryListAsync().Result.Data;
             SetupData();
         }
@@ -34,7 +40,13 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
                     ImgPath = "images/pion_roses.jpg"
                 },
 
-                new Product { Id = 4, Name = "Сансевиерия цилиндрическая", Description = "Диаметр горшка - 12 см, высота растения с горшком - 35 см",
+                new Product { Id = 4, Name = "Монобукет из альстромерий", Description = "Букет выполнен из альстромерий (микс цвета) в " +
+                "количестве 9 штук. Упакован в корейский матовый целлофан/ Крафт-бумагу с декоративными лентами.",
+                    Price = 85, Category = _categories.Find(c => c.NormalizedName.Equals("bouquet")),
+                    ImgPath = "images/alstromeria.jpeg"
+                },
+
+                new Product { Id = 5, Name = "Сансевиерия цилиндрическая", Description = "Диаметр горшка - 12 см, высота растения с горшком - 35 см",
                     Price = 55, Category = _categories.Find(c => c.NormalizedName.Equals("houseplant")),
                     ImgPath = "images/sansevieria.jpeg"
 }
@@ -58,13 +70,27 @@ namespace Web_153503_Kachanovskaya.Services.ProductService
         public Task<ResponseData<ListModel<Product>>> GetProductListAsync(string? categoryNormalizedName, int pageNum = 1)
         {
             var result = new ResponseData<ListModel<Product>>();
-            ListModel<Product> data = new ListModel<Product>();
-            data.Items = _products
-                    .Where(p => categoryNormalizedName == null ||
-                    p.Category.NormalizedName.Equals(categoryNormalizedName)).ToList();
 
+            if (Int32.TryParse(_configuration["ItemsPerPage"], out int itemsPerPage))
+            { 
+                var data = _products
+                        .Where(p => categoryNormalizedName == null ||
+                        p.Category.NormalizedName.Equals(categoryNormalizedName)).ToList();
+
+
+                result.Data = new()
+                {
+                    Items = data.Skip((pageNum - 1) * itemsPerPage).Take(itemsPerPage).ToList(),
+                    CurrentPage = pageNum,
+                    TotalPages = (int)Math.Ceiling((double)data.Count / itemsPerPage)
+                };
+            }
+            else
+            {
+                result.Success = false;
+                result.ErrorMessage = "Invalid ItemsPerPage value";
+            }
             
-            result.Data = data;
             return Task.FromResult(result);
             //throw new NotImplementedException();
             //var result = new ResponseData<ListModel<Product>>();

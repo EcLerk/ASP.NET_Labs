@@ -18,7 +18,7 @@ namespace Web_153503_Kachanovskaya.Controllers
         }
 
         // GET: ProductController
-        public async Task<IActionResult> Index(string? category)
+        public async Task<IActionResult> Index(string? category, int pageNum = 1)
         {
             var categoryResponse = await _categoryService.GetCategoryListAsync();
             if (!categoryResponse.Success)
@@ -27,7 +27,7 @@ namespace Web_153503_Kachanovskaya.Controllers
             ViewData["Categories"] = categoryResponse.Data;
             ViewData["CurrentCategory"] = categoryResponse.Data.SingleOrDefault(c => c.NormalizedName == category);
 
-            var productResponse = await _productService.GetProductListAsync(category);
+            var productResponse = await _productService.GetProductListAsync(category, pageNum);
             if(!productResponse.Success)
                 return NotFound(productResponse.ErrorMessage);
             else 
